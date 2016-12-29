@@ -71,11 +71,15 @@ module.exports = class BaseManager {
     }
 
     create(data) {
+        var now = new Date();
+
         return this._pre(data)
             .then((validData) => {
                 return this._beforeInsert(validData);
             })
             .then((processedData) => {
+                processedData._createdDate = now;
+
                 return this.collection.insert(processedData);
             })
             .then((id) => {
