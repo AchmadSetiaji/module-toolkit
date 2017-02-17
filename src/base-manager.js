@@ -102,11 +102,8 @@ module.exports = class BaseManager {
     }
 
     delete(data) {
-        return this._pre(data)
-            .then((validData) => {
-                validData._deleted = true;
-                return this.collection.update(validData);
-            });
+        data._deleted = true;
+        return this.collection.update(data);
     }
 
     destroy(id) {
