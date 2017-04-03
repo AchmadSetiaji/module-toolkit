@@ -113,29 +113,31 @@ module.exports = class BaseManager {
             .then((result) => {
                 return Promise.resolve(result.deletedCount === 1);
             });
-    }
+    } 
 
-    getSingleById(id) {
+    getSingleById(id, fields) {
         var query = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : {},
             _deleted: false
         };
-        return this.getSingleByQuery(query);
+        return this.getSingleByQuery(query, fields);
     }
 
-    getSingleByIdOrDefault(id) {
+    getSingleByIdOrDefault(id, fields) {
         var query = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : {},
             _deleted: false
-        };
-        return this.getSingleByQueryOrDefault(query);
+        }; 
+        return this.getSingleByQueryOrDefault(query, fields);
     }
 
-    getSingleByQuery(query) {
-        return this.collection.single(query);
+    getSingleByQuery(where, fields) {
+        this.collection.select(fields);
+        return this.collection.single(where);
     }
 
-    getSingleByQueryOrDefault(query) {
-        return this.collection.singleOrDefault(query);
+    getSingleByQueryOrDefault(where, fields) {
+        this.collection.select(fields);
+        return this.collection.singleOrDefault(where);
     }
 };
