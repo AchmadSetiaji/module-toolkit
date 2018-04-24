@@ -103,6 +103,7 @@ module.exports = class BaseManager {
 
     delete(data) {
         data._deleted = true;
+        data._updatedDate = new Date();
         return this.collection.update(data);
     }
 
